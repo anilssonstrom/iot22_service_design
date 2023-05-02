@@ -1,0 +1,146 @@
+openapi: 3.0.3
+x-stoplight:
+  id: ibzztjl1why9f
+info:
+  title: MovieDB API
+  version: '1.0'
+  contact:
+    name: Admin
+    email: admin@example.com
+    url: 'https://www.example.com'
+  termsOfService: 'https://www.example.com/tos'
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+  description: An API to talk to my Movie Database
+servers:
+  - url: 'http://localhost:5000/api/v1'
+paths:
+  '/movies/{movieId}':
+    parameters:
+      - schema:
+          type: string
+        description: A movie ID
+        name: movieId
+        in: path
+        required: true
+    get:
+      summary: GET info about a movie
+      tags:
+        - movies
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+                description: A movie
+              examples:
+                Example 1:
+                  value:
+                    id: 14
+                    title: The Matrix
+                    playtime: 136
+        '404':
+          description: Movie Not Found
+      operationId: get-movies-movieId
+      description: Retrieve information of a movie with the matching movie ID.
+    delete:
+      summary: DELETE a movie
+      operationId: delete-api-v1-movies-movieId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      description: Delete a movie
+      tags:
+        - movies
+  /movies:
+    get:
+      summary: GET all movies
+      tags:
+        - movies
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+                  x-stoplight:
+                    id: dx12o83k0g5l1
+        '500':
+          description: Internal Server Error
+      operationId: get-movies
+      description: Get a list of all movies
+    parameters: []
+    post:
+      summary: POST a new movie
+      operationId: post-api-v1-movies
+      responses:
+        '200':
+          description: OK
+          headers:
+            Location:
+              schema:
+                type: string
+              description: Location of newly created movie
+        '500':
+          description: Internal Server Error
+      description: Add a movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  x-stoplight:
+                    id: i4tuk6jjua43g
+                playtime:
+                  type: integer
+                  x-stoplight:
+                    id: gygqsaybl976o
+        description: ''
+      tags:
+        - movies
+      parameters: []
+components:
+  schemas:
+    Movie:
+      title: Movie
+      x-stoplight:
+        id: ccwxbnm8o8q3k
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+          x-stoplight:
+            id: apojszwo4ns8m
+          description: Movie title
+        playtime:
+          type: integer
+          x-stoplight:
+            id: 97luy053nwbpl
+          description: Playtime in minutes
+      required:
+        - id
+        - title
+      description: Description of a movie object
+tags:
+  - name: movies
+    description: Operations relevant to movies
